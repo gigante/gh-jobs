@@ -5,33 +5,19 @@ on:
     branches: [ master ]
 
 jobs:
-  build-fedora:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         version: [4.0, 5.0, 6.0]
+        dist: ["fedora", "ubuntu"]
     steps:
       -
         uses: actions/checkout@v2
         name: Checkout code
       -
         name: Build
-        run: make build VERSION=${{ matrix.version }} DIST=fedora
+        run: make build VERSION=${{ matrix.version }} DIST=${{ matrix.dist }}
       -
         name: Test
-        run: make test VERSION=${{ matrix.version }} DIST=fedora
-  build-ubuntu:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: [4.0, 5.0, 6.0]
-    steps:
-      -
-        uses: actions/checkout@v2
-        name: Checkout code
-      -
-        name: Build
-        run: make build VERSION=${{ matrix.version }} DIST=fedora
-      -
-        name: Test
-        run: make test VERSION=${{ matrix.version }} DIST=fedora
+        run: make test VERSION=${{ matrix.version }} DIST=${{ matrix.dist }}
